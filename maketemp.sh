@@ -1,5 +1,14 @@
 maketemp() {
   (
+    mkfile() {
+      set -C
+      : > "$file" &
+      if [ -p "$file" ]; then
+        : <> "$file" || :
+        return 1
+      fi
+      wait $!
+    }
     : & n=$! && wait $!
     retry=1000 && umask 0077
     while [ $((retry = retry - 1)) -ge 0 ]; do
@@ -9,7 +18,7 @@ maketemp() {
       file=$(( (n < 0 ? -1 * n : n) % 100000000 + 100000000))
       file="${TMPDIR:-/tmp}/${file#1}"
       case ${1:--file} in
-        -file) (set -C && : > "$file") 2>/dev/null && break ;;
+        -file) mkfile "$file" 2>/dev/null && break ;;
         -dir) mkdir "$file" 2>/dev/null && break ;;
         -fifo) mkfifo "$file" 2>/dev/null && break ;;
         *) echo "maketemp: unknown file type: $1" >&2 && exit 1
