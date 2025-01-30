@@ -7,6 +7,11 @@ tmp=$(maketemp)
 ls -ld "$tmp"
 echo
 
+echo "=== maketemp (prefix) ==="
+tmp=$(maketemp prefix)
+ls -ld "$tmp"
+echo
+
 echo "=== maketemp -dir ==="
 tmp=$(maketemp -dir)
 ls -ld "$tmp"

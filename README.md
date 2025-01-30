@@ -15,6 +15,9 @@ Unfortunately, the `mktemp` command is not standardized in POSIX. I hope it will
 # Creating a temporary file
 maketemp
 
+# Creating a temporary file with prefix
+maketemp prefix
+
 # Creating a temporary directory
 maketemp -dir
 
